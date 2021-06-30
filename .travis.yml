@@ -1,10 +1,5 @@
-# give super user permissions
 sudo: required
 
-# set language
-language: generic
-
-# tell travis what we need
 services:
   - docker
 
