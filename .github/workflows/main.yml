@@ -1,0 +1,37 @@
+name: Deploy Workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+    types: [closed]
+
+jobs:
+  deploy:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
+    # Operating system to run job on
+    runs-on: ubuntu-latest
+    # Steps in job
+    steps:
+      # Get code from repo
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v17
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: frontend-react
+          environment_name: Frontendreact-env
+          # version_label: "app-cbe0-210131_121135"
+          region: us-east-1
+  # if PR is closed without merging...
+  close_job:
+    # this job will only run if the PR has been closed without being merged
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo PR #${{ github.event.number }} has been closed without being merged
