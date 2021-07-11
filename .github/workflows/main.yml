@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Build Dev Docker Image
-        run: docker build -t alexrosenkranz/Frontend-react -f Dockerfile .
+        run: docker build -t alexrosenkranz/frontend-react -f Dockerfile .
       # Zip Dockerfile for upload
       - name: Generate Deployment Package
         run: zip -r deploy.zip * -x "**node_modules**"
